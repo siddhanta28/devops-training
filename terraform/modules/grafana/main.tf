@@ -4,7 +4,6 @@ resource "helm_release" "grafana" {
   repository  = var.grafana_repo
   namespace   = var.grafana_namespace
 
-  create_namespace = true
   wait             = true
 
   set {

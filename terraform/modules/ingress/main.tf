@@ -3,7 +3,6 @@ resource "helm_release" "ingress" {
   repository = var.ingress_repo
   chart      = var.ingress_chart
   namespace  = var.ingress_namespace
-  create_namespace = true
 
   set {
     name  = "controller.service.type"
