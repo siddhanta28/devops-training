@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: deployment
+  namespace: training 
+  labels:
+    app: testing
+spec: 
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: testing
+  template:
+    metadata:
+      labels:
+        app: testing      
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: country
+                operator: In
+                values:
+                - Aus
+      containers:
+      - name: testing
+        image: bitbull/webserver
+        ports:
+        - containerPort: 80
+        env:
+        - name: Password
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key:  password
+        - name: Version
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key:  Version
+       
